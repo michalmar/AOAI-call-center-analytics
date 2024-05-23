@@ -24,11 +24,15 @@ Example of `local.settings.json`:
 > Note: Same variables are expected to be n the Azure Function app as environment variables.
 
 
-## Acepted format
-Recording - MP3, WAV - needs to be dual channel (diarization not needed)
+## Prerequisities
+- Recording - MP3, WAV - needs to be dual channel (diarization not needed)
+- Speech service used for call transcript has Managed Identity for accesing the storage, with at least `Blob Storage Reader` permissions - more [here](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription-audio-data?tabs=portal#enable-system-assigned-managed-identity-for-the-speech-resource)
 
 ## Process description
-1. Transcript
+The process is quite simple two step operation. First, we need to transcript the call recording and format outout. Second, running LLM analysis on the formatted transcript.
+
+
+1. **Transcript**
     - Function: `transcript_recording` (blob trigger)
     ```Python
     @app.blob_trigger(arg_name="myblob", path=container_input_recording, connection="AZURE_STORAGE_CONNECTION_STRING") 
@@ -44,7 +48,7 @@ Recording - MP3, WAV - needs to be dual channel (diarization not needed)
         ```
     - Change variable `RECORDING_LANGUAGE` accordingly 
 
-2. Analyze
+2. **Analyze**
     - Function: 
     ```Python
     @app.blob_trigger(arg_name="myblob", path=container_input_transcript, connection="AZURE_STORAGE_CONNECTION_STRING")
