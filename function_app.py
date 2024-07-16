@@ -24,7 +24,6 @@ def get_file_name(blob_name):
     return blob_name.split('/')[-1]
 
 def extract_url_from_connstr(conn_str):
-    conn_str = "DefaultEndpointsProtocol=https;AccountName=callcenteranalytics;AccountKey=D2b8idXOAfucZbY7Labwwc7HKcwxcE/Y4odHS9tVUUd7dYnvxqfnXJS6Hoxc9i2CKtt3SaDwMwS1+ASttj9OLQ==;EndpointSuffix=core.windows.net"
     account_match = re.search(r'AccountName=([^;]*)', conn_str)
     suffix_match = re.search(r'EndpointSuffix=([^;]*)', conn_str)
 
